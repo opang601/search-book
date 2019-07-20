@@ -5,3 +5,19 @@ spring:
   
 server:
   port: 80 
+
+logging:
+  config: classpath:logback-spring.xml
+  path: logs/
+  level:
+    root: INFO
+    org.springframework.core: INFO
+    org.springframework.beans: INFO
+    org.springframework.context: INFO
+    org.springframework.web: INFO
+    #org.springframework.data: INFO
+    org.apache.http: INFO
+    org.apache.catalina: INFO
+    org.apache.coyote: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  

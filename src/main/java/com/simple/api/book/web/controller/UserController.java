@@ -1,41 +1,42 @@
 package com.simple.api.book.web.controller;
 
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simple.api.book.common.domain.entity.UsersEntity;
-import com.simple.api.book.common.domain.repository.UserRepository;
+import com.simple.api.book.common.domain.response.Result;
+import com.simple.api.book.web.controller.service.UserService;
 
 @CrossOrigin( "*" )
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
+	/**	회원가입
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/regist")
-	public List<UsersEntity> registUser(@RequestBody UsersEntity user) throws Exception {
+	public Result registUser(@RequestBody UsersEntity user) throws Exception {
 		
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		user.setRegDt(currentDateTime);
-		
-		userRepository.save(user);
-		logger.info("messge : {}", userRepository.count());
-		logger.info("messge : {}", userRepository.findAll().get(0));
+		return userService.regist(user);
 		 
-		return userRepository.findAll();
+	}
+	@PostMapping("/idCheck")
+	public Result idCheckUser(@RequestBody UsersEntity user) throws Exception {
+		
+		return userService.idCheckUser(user.getUserId());
 		
 	}
 }

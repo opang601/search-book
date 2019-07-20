@@ -13,6 +13,10 @@ Vue.use(Router);
 
 const routes = [
     {
+        path: '/',
+        component: mainSearch,
+    },
+    {
         path: '/login',
         component: login,
         // redirect: '/search/main',
@@ -30,11 +34,8 @@ const routes = [
    
 ]
 
-
-
 export const router = new Router({
     routes: routes,
-    linkActiveClass: 'nav-item active'
 });
 
 

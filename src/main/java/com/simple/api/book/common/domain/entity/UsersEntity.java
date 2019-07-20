@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -24,8 +26,13 @@ public class UsersEntity {
 	@Column(name="USER_ID")
 	private String userId;		// 회원ID
 	
+	@JsonIgnore
 	@Column(name="USER_PWD")
 	private String userPwd;		// 회원비밀번호
+
+	@JsonIgnore
+	@Column(name="SALT")
+	private String salt;		// 비밀번호 암호화 난수
 	
 	@Column(name="USER_NAME")
 	private String userName;	// 회원이름
