@@ -29,9 +29,6 @@ public class UsersEntity {
 	
 	@Column(name="USER_NAME")
 	private String userName;	// 회원이름
-
-	@Column(name="EMAIL")
-	private String email;		// 이메일
 	
 	@Column(name="REG_DT", nullable=false)
 	private LocalDateTime regDt;			// 가입일시
