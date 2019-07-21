@@ -26,7 +26,6 @@ public class UsersEntity {
 	@Column(name="USER_ID")
 	private String userId;		// 회원ID
 	
-	@JsonIgnore
 	@Column(name="USER_PWD")
 	private String userPwd;		// 회원비밀번호
 

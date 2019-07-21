@@ -3,10 +3,10 @@ package com.simple.api.book.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simple.api.book.common.domain.entity.UsersEntity;
@@ -28,15 +28,32 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@PostMapping("/regist")
-	public Result registUser(@RequestBody UsersEntity user) throws Exception {
+	public Result registUser(@RequestBody UsersEntity user) {
 		
 		return userService.regist(user);
 		 
 	}
-	@PostMapping("/idCheck")
-	public Result idCheckUser(@RequestBody UsersEntity user) throws Exception {
+	
+	/**	아이디 중복체크
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/idDuplCheck")
+	public Result idDuplCheck(@RequestBody UsersEntity user)  {
 		
 		return userService.idCheckUser(user.getUserId());
 		
+	}
+	
+	/**	회원조회
+	 * @return
+	 * @throws Exception
+	 */
+	@GetMapping("")
+	public Result getUserList() {
+			
+		return userService.getUserList();
+		 
 	}
 }

@@ -9,4 +9,6 @@ public interface UserService {
 
 	Result idCheckUser(String userId);
 
+	Result getUserList();
+
 }

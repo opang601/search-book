@@ -27,6 +27,13 @@ public class UserServiceImpl implements UserService{
 		Result result = Result.successInstance();
 		
 		try {
+			List<UsersEntity> findUserList = userRepository.findByUserId(user.getUserId());
+			
+			if(findUserList != null && !findUserList.isEmpty()) {
+				result = Result.failInstance();
+				result.setMessage("사용중인 ID가 존재합니다.");
+				return result;
+			}
 			//비밀번호 암호화
 			String salt = SHA256Util.generateSalt();
 			String pwd = user.getUserPwd();
@@ -43,13 +50,14 @@ public class UserServiceImpl implements UserService{
 			if(saveUser.getUserIdx() == null ) {
 				result = Result.failInstance();
 			}
-				
+			
 			} catch (Exception e) {
-					
+				e.printStackTrace();
 			}
 			return result;
 		
 	}
+	
 	@Override
 	public Result idCheckUser(String userId) {
 		Result result = Result.successInstance();
@@ -61,6 +69,20 @@ public class UserServiceImpl implements UserService{
 				result = Result.failInstance();
 				result.setMessage("사용중인 ID가 존재합니다.");
 			}
+				
+			} catch (Exception e) {
+					
+			}
+			return result;
+	}
+	
+	@Override
+	public Result getUserList() {
+		Result result = Result.successInstance();
+		
+		try {
+			List<UsersEntity> findUserList = userRepository.findAll();
+			result.setData(findUserList);
 				
 			} catch (Exception e) {
 					

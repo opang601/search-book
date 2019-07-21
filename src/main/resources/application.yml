@@ -2,10 +2,19 @@ spring:
   jpa:
     generate-ddl: false
     show-sql: true
-  
+---
+kakao:
+  url: https://dapi.kakao.com/v3/search/book
+  authorization: KakaoAK ebbf17292b0b2dc77648c22e77571ef3
+---
+naver:
+  url: https://openapi.naver.com/v1/search/book.json
+  clientId: 7DR4iBTS4REgJnj4955i
+  clientSecret: XxLljnw7qJ
 server:
   port: 80 
 
+---
 logging:
   config: classpath:logback-spring.xml
   path: logs/

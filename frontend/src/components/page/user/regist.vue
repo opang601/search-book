@@ -12,14 +12,14 @@
         중복확인 여부 : {{idCheck.checkNm}}
       </b-form-group>
       <b-form-group id="input-group-2" label="비밀번호" label-for="input-2">
-        <b-form-input
+        <b-form-input type="password"
           v-model="form.userPwd"
           required
           placeholder="비밀번호" maxlength="20"
         ></b-form-input>
       </b-form-group>
       <b-form-group id="input-group-2" label="비밀번호확인" label-for="input-2">
-        <b-form-input
+        <b-form-input  type="password"
           v-model="form.repwd"
           required
           placeholder="비밀번호 확인" maxlength="20"
@@ -84,6 +84,7 @@ import Vue from 'vue'
             .then((response) => {
               alert(response.data.message)
               this.initForm();
+              this.$router.push('/')
             })
             .catch((ex) => {
               alert('등록이 실패하였습니다.\n' + ex)
@@ -94,14 +95,14 @@ import Vue from 'vue'
       },
       onBack(evt) {
         evt.preventDefault()
-        alert('뒤로가기')
+        this.$router.push('login')
       },
       idCheckProc(){
         if(!this.form.userId){
             alert('ID에 값이 없습니다.')
             return false
           }
-        axios.post(process.env.ROOT_API + '/api/user/idCheck', this.form)
+        axios.post(process.env.ROOT_API + '/api/user/idDuplCheck', this.form)
             .then((response) => {
               if(response.data.resultCode == '0'){
                 this.idCheck.check = true

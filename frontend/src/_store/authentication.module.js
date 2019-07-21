@@ -24,10 +24,10 @@ export const authentication = {
     namespaced: true,
     state: initialState,
     actions: {
-        login({ dispatch, commit }, { username, password }) {
-            commit('loginRequest', { username });
+        login({ dispatch, commit }, { userId, userPwd }) {
+            commit('loginRequest', { userId });
 
-            userService.login(username, password)
+            userService.login(userId, userPwd)
                 .then(
                     user => {
                         commit('loginSuccess', user);
@@ -36,7 +36,7 @@ export const authentication = {
                     error => {
                         let errorMsg = '';
                         if (error.status === 401) {
-                            errorMsg = 'AD아이디 또는 비밀번호를 정확하게 입력해주세요.'
+                            errorMsg = '아이디 또는 비밀번호를 정확하게 입력해주세요.'
                         }else{
                             errorMsg = '로그인 중 문제가 발생하였습니다.'
                         }
