@@ -1,5 +1,7 @@
 package com.simple.api.book.web.controller.service.impl;
 
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
+import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
 import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.vo.book.KakaoBookInfoVO;
 import com.simple.api.book.common.domain.vo.book.SearchBookVO;
+import com.simple.api.book.web.controller.service.JwtService;
 import com.simple.api.book.web.controller.service.SearchBookService;
 
 @Service
@@ -43,12 +48,25 @@ public class SearchBookServiceImpl implements SearchBookService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SearchKeywordRepository searchKeywordRepository;
+	@Autowired
+	private JwtService jwtService;
 	
 	@Override
 	public Result searchBook(SearchBookVO searchBookVO) {
 		Result result = Result.successInstance();
 		try {
 			result = requestBookQuery(searchBookVO);
+			SearchKeywordEntity keyword = new SearchKeywordEntity();
+			keyword.setSearchKeyword(searchBookVO.getSearchKeyword());
+			keyword.setUser(jwtService.getUser());
+			
+			LocalDateTime currentDateTime = LocalDateTime.now();
+			keyword.setRegDt(currentDateTime);
+			
+			searchKeywordRepository.save(keyword);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,8 +88,6 @@ public class SearchBookServiceImpl implements SearchBookService{
 	    
 	    HttpEntity<String> entity = new HttpEntity<String>(headers);
 	    ResponseEntity<KakaoBookInfoVO> bookResult = restTemplate.exchange(url, HttpMethod.GET, entity, KakaoBookInfoVO.class, keyword, page, pageSize);
-	    
-	    logger.info("도서검색 {}", bookResult);
 	    
 	    Result result = Result.successInstance();
 	    result.setData(bookResult);

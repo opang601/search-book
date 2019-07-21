@@ -3,16 +3,20 @@ package com.simple.api.book.web.controller.service.impl;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.simple.api.book.common.domain.entity.UsersEntity;
+import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.config.exception.UnauthorizedException;
 import com.simple.api.book.web.controller.service.JwtService;
 
@@ -31,6 +35,8 @@ public class JwtServiceImpl implements JwtService{
 	// Token 만료 시간 설정
 	private int MINUTES = 60 * 1;
 
+	@Autowired
+	private UserRepository userRepository;
 	
 	/**	
 	 * 토큰 생성
@@ -124,6 +130,16 @@ public class JwtServiceImpl implements JwtService{
 		return (String)this.get("member").get("userId");
 	}
 	
-	
+	@Override
+	public UsersEntity getUser() {
+		UsersEntity user = new UsersEntity();
+		String userId = getUserId();
+		
+		List<UsersEntity> userList= userRepository.findByUserId(userId);
+		if(userList != null && !userList.isEmpty()) {
+			user = userList.get(0);
+		}
+		return user;
+	}
 	
 }
