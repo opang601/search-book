@@ -9,5 +9,7 @@ public interface SearchBookService {
 
 	Result searchHistory();
 
+	Result searchRankHistory();
+
 
 }

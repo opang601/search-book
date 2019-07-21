@@ -1,8 +1,12 @@
 package com.simple.api.book.web.controller.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +114,30 @@ public class SearchBookServiceImpl implements SearchBookService{
 			user.setSearchList(searchList);
 			
 			result.setData(user);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@Override
+	public Result searchRankHistory() {
+		Result result = Result.successInstance();
+		try {
+			List<SearchKeywordEntity> searchList = searchKeywordRepository.findAll();
+			
+			List<String> keywordList = new ArrayList<String>();
+			for(SearchKeywordEntity tmp : searchList) {
+				keywordList.add(tmp.getSearchKeyword());
+			}
+			
+			Map<String, Long> counted = keywordList.stream()
+		            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+			
+			logger.info(counted.toString());
+			result.setData(counted);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

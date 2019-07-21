@@ -9,6 +9,7 @@ import login from '@/components/page/user/login';
 import regist from '@/components/page/user/regist';
 import bookSearch from '@/components/page/search/bookSearch';
 import history from '@/components/page/search/history';
+import rankHistory from '@/components/page/search/rankHistory';
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ const routes = [
             path: '/history',
             name: 'history',
             component: history,
+          },
+          {
+            path: '/rankHistory',
+            name: 'rankHistory',
+            component: rankHistory,
           },
         ],
       },

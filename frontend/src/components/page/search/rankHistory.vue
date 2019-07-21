@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h2>나의 검색이력</h2>
+    <h2>검색어 순위</h2>
     <table class="table table-type1 table-align-left">
         <thead role="rowgroup" class="">
             <tr role="row">
               <th role="columnheader" scope="col" aria-colindex="1" class="">No</th>
               <th role="columnheader" scope="col" aria-colindex="2" class="">검색어</th>
-              <th role="columnheader" scope="col" aria-colindex="3" class="">검색일시</th>
+              <th role="columnheader" scope="col" aria-colindex="3" class="">검색횟수</th>
             </tr>
           </thead>
         <colgroup>
@@ -15,10 +15,10 @@
           <col width="">
         </colgroup>
         <tbody>
-          <tr v-for="(item,index) in searchList" :key="index">
+           <tr v-for="(value, name, index) in searchList" :key="name">
             <td>{{index+1}}</td>
-            <td>{{item.searchKeyword}}</td>
-            <td>{{item.regDt | formatDate}}</td>
+            <td>{{name}}</td>
+            <td>{{value}}</td>
           </tr>
         </tbody>
       </table>
@@ -50,9 +50,9 @@ Vue.filter('formatDate', function(value) {
       
     },
    created() {
-     axios.get(process.env.ROOT_API + '/api/search/history')
+     axios.get(process.env.ROOT_API + '/api/search/rankHistory')
         .then((response) => {
-          this.searchList =  response.data.data.searchList
+          this.searchList =  response.data.data
         })
         .catch((ex) => {
           console.log("error : " + ex)

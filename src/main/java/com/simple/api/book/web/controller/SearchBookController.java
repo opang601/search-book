@@ -32,4 +32,11 @@ public class SearchBookController {
 		return searchBookService.searchHistory();
 		
 	}
+
+	@GetMapping("/rankHistory")
+	public Result searchRankHistory() {
+		
+		return searchBookService.searchRankHistory();
+		
+	}
 }
