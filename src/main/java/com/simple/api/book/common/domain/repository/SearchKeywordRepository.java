@@ -5,9 +5,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
-import com.simple.api.book.common.domain.entity.UsersEntity;
 
 @Repository
 public interface SearchKeywordRepository extends JpaRepository <SearchKeywordEntity, String>, JpaSpecificationExecutor<SearchKeywordEntity> {
-
+	
 }

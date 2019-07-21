@@ -3,9 +3,9 @@
     <h2>도서조회</h2>
     <b-input-group class="mb-1" prepend="검색어" style="width:700px;">
       <b-form-input v-model="fieldList.searchKeyword" 
-                    @keyup.enter.native="searchKeyword(1)"></b-form-input>
+                    @keyup.enter.native="searchKeyword(1,true)"></b-form-input>
       <b-input-group-append>
-        <b-button size="sm" text="Button" variant="success" @click="searchKeyword(1)">조회</b-button>
+        <b-button size="sm" text="Button" variant="success" @click="searchKeyword(1,true)">조회</b-button>
       </b-input-group-append>
     </b-input-group>
     
@@ -52,7 +52,7 @@
         <tr><th>ISBN</th><td>{{targetInfo.isbn}}</td></tr>
         <tr><th>저자</th><td>{{targetInfo.authors}}</td></tr>
         <tr><th>출판사</th><td>{{targetInfo.publisher}}</td></tr>
-        <tr><th>출판일</th><td>{{targetInfo.datetime}}</td></tr>
+        <tr><th>출판일</th><td>{{targetInfo.datetime | formatDate}}</td></tr>
         <tr><th>정가</th><td>{{targetInfo.price.toLocaleString()}}원</td></tr>
         <tr><th>판매가</th><td>{{targetInfo.sale_price.toLocaleString()}}원</td></tr>
       </tbody>
@@ -64,6 +64,14 @@
 
 <script>
 import axios from 'axios'
+import Vue from 'vue'
+import moment from 'moment'
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('YYYY/MM/DD hh:mm')
+  }
+});
 
   export default {
     data() {
@@ -79,12 +87,8 @@ import axios from 'axios'
       }
     },
     methods: {
-      fullName(value) {
-        return `${value.first} ${value.last}`
-      },
-
-      //상품 조회
-      searchKeyword(page) {
+      //도서 조회
+      searchKeyword(page, typing) {
         if(!this.fieldList.searchKeyword){
           alert('검색어를 입력해주세요.')
           return false
@@ -96,6 +100,7 @@ import axios from 'axios'
         formParams.page = page
         formParams.pageSize =  this.perPage
         formParams.searchKeyword = this.fieldList.searchKeyword
+        formParams.typing = typing
 
         axios.post(process.env.ROOT_API + '/api/search/book', formParams)
         .then((response) => {
@@ -122,7 +127,7 @@ import axios from 'axios'
     },
     watch: {
     currentPage: function (newVal, oldVal) {
-      this.searchKeyword(this.currentPage)
+      this.searchKeyword(this.currentPage, false)
     },
     
   },

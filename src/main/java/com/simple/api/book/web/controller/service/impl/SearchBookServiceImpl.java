@@ -1,6 +1,8 @@
 package com.simple.api.book.web.controller.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
+import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
 import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.common.domain.response.Result;
@@ -58,14 +61,16 @@ public class SearchBookServiceImpl implements SearchBookService{
 		Result result = Result.successInstance();
 		try {
 			result = requestBookQuery(searchBookVO);
-			SearchKeywordEntity keyword = new SearchKeywordEntity();
-			keyword.setSearchKeyword(searchBookVO.getSearchKeyword());
-			keyword.setUser(jwtService.getUser());
-			
-			LocalDateTime currentDateTime = LocalDateTime.now();
-			keyword.setRegDt(currentDateTime);
-			
-			searchKeywordRepository.save(keyword);
+			if(searchBookVO.isTyping()) {//직접 입력 시에만 검색이력 저장,페이징 제외
+				SearchKeywordEntity keyword = new SearchKeywordEntity();
+				keyword.setSearchKeyword(searchBookVO.getSearchKeyword());
+				keyword.setUser(jwtService.getUser());
+				
+				LocalDateTime currentDateTime = LocalDateTime.now();
+				keyword.setRegDt(currentDateTime);
+				
+				searchKeywordRepository.save(keyword);
+			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -94,6 +99,25 @@ public class SearchBookServiceImpl implements SearchBookService{
 	    
 	    return result;
 	}
+	
+	@Override
+	public Result searchHistory() {
+		Result result = Result.successInstance();
+		try {
+			UsersEntity user = jwtService.getUser();
+			List<SearchKeywordEntity> searchList = user.getSearchList();
+			searchList.sort(Comparator.comparing(SearchKeywordEntity::getRegDt).reversed());
+			user.setSearchList(searchList);
+			
+			result.setData(user);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }
 
 

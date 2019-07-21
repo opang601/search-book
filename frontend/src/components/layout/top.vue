@@ -12,7 +12,7 @@
 
         <b-navbar-nav>
           <b-nav-item href="#" @click="movePage('/search')">도서조회</b-nav-item>
-          <b-nav-item href="#" >나의 검색이력</b-nav-item>
+          <b-nav-item href="#" @click="movePage('/history')">나의 검색이력</b-nav-item>
           <b-nav-item href="#" >검색어 순위</b-nav-item>
         </b-navbar-nav>
 

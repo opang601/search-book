@@ -8,6 +8,7 @@ import intro from '@/components/page/intro';
 import login from '@/components/page/user/login';
 import regist from '@/components/page/user/regist';
 import bookSearch from '@/components/page/search/bookSearch';
+import history from '@/components/page/search/history';
 
 Vue.use(Router);
 
@@ -26,6 +27,11 @@ const routes = [
             path: '/search',
             name: 'bookSearch',
             component: bookSearch,
+          },
+          {
+            path: '/history',
+            name: 'history',
+            component: history,
           },
         ],
       },
