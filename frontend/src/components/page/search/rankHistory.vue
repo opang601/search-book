@@ -50,6 +50,7 @@ Vue.filter('formatDate', function(value) {
       
     },
    created() {
+     //검색어 순위 조회
      axios.get(process.env.ROOT_API + '/api/search/rankHistory')
         .then((response) => {
           this.searchList =  response.data.data

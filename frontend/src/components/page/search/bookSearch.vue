@@ -105,7 +105,7 @@ Vue.filter('formatDate', function(value) {
         axios.post(process.env.ROOT_API + '/api/search/book', formParams)
         .then((response) => {
           let result =  response.data.data
-          console.log(result.body.meta)
+          
           this.rows = result.body.meta.total_count
           this.searchList = result.body.documents
           this.listMode = true
@@ -114,10 +114,12 @@ Vue.filter('formatDate', function(value) {
           console.log("error : " + ex)
         })
       },
+      //해당 도서정보 전달
       targetBookInfo(targetIdx){
         this.listMode = false
         this.targetInfo = this.searchList[targetIdx]
       },
+      //리스트와 상세화면 toggle
       ChangeListMode(){
         this.listMode = true
       }

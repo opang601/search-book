@@ -1,6 +1,5 @@
 package com.simple.api.book.web.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -67,8 +66,6 @@ public class SearchBookServiceImpl implements SearchBookService{
 				keyword.setSearchKeyword(searchBookVO.getSearchKeyword());
 				keyword.setUser(jwtService.getUser());
 				
-				LocalDateTime currentDateTime = LocalDateTime.now();
-//				keyword.setRegDt(currentDateTime);
 				keyword.setRegDt(new Date());
 				
 				searchKeywordRepository.save(keyword);

@@ -18,7 +18,7 @@
           <tr v-for="(item,index) in searchList" :key="index">
             <td>{{index+1}}</td>
             <td>{{item.searchKeyword}}</td>
-            <td>{{item.regDt|formatDate}}</td>
+            <td>{{formatDate(item.regDt)}}</td>
           </tr>
         </tbody>
       </table>
@@ -31,13 +31,6 @@ import axios from 'axios'
 import Vue from 'vue'
 import moment from 'moment'
 
-Vue.filter('formatDate', function(value) {
-  if (value) {
-    let date =  moment(String(new Date(value))).format('YYYY/MM/DD hh:mm')
-    return date;
-  }
-});
-
   export default {
     data() {
       return {
@@ -45,12 +38,15 @@ Vue.filter('formatDate', function(value) {
       }
     },
     methods: {
-     
+      formatDate(timezone){
+        return moment(timezone).format("YYYY-MM-DD HH:mm:ss");
+      }
     },
     computed: {
-      
+     
     },
    created() {
+     //회원 검색내역 조회
      axios.get(process.env.ROOT_API + '/api/search/history')
         .then((response) => {
           this.searchList =  response.data.data.searchList

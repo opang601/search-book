@@ -1,6 +1,6 @@
 package com.simple.api.book.web.service.impl;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService{
 			user.setUserPwd(pwd);
 			logger.info("###### Pass Encrypt pwd : {}, salt : {}", pwd, salt);
 			
-			LocalDateTime currentDateTime = LocalDateTime.now();
-			user.setRegDt(currentDateTime);
+			user.setRegDt(new Date());
 			UsersEntity saveUser = userRepository.save(user);
 			
 			if(saveUser.getUserIdx() == null ) {
