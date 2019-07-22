@@ -18,7 +18,7 @@
           <tr v-for="(item,index) in searchList" :key="index">
             <td>{{index+1}}</td>
             <td>{{item.searchKeyword}}</td>
-            <td>{{item.regDt | formatDate}}</td>
+            <td>{{item.regDt|formatDate}}</td>
           </tr>
         </tbody>
       </table>
@@ -33,7 +33,8 @@ import moment from 'moment'
 
 Vue.filter('formatDate', function(value) {
   if (value) {
-    return moment(String(value)).format('YYYY/MM/DD hh:mm')
+    let date =  moment(String(new Date(value))).format('YYYY/MM/DD hh:mm')
+    return date;
   }
 });
 

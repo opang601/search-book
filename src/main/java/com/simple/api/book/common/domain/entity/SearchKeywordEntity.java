@@ -1,6 +1,6 @@
 package com.simple.api.book.common.domain.entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -34,7 +36,8 @@ public class SearchKeywordEntity {
 	
 	
 	@Column(name="REG_DT", nullable=false)
-	private LocalDateTime regDt;			// 조회
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date regDt;			// 조회
 
 	@ManyToOne(targetEntity=UsersEntity.class, fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
 	@JoinColumn(name="user_idx")
