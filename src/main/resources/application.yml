@@ -3,10 +3,6 @@ spring:
     generate-ddl: false
     show-sql: true
 
-server:
-  port: 80  
-  servlet:
-    context-path: /
 ---
 kakao:
   url: https://dapi.kakao.com/v3/search/book
@@ -16,8 +12,9 @@ naver:
   url: https://openapi.naver.com/v1/search/book.json
   clientId: 7DR4iBTS4REgJnj4955i
   clientSecret: XxLljnw7qJ
+
 server:
-  port: 80 
+  port: 8090
 
 ---
 logging:
