@@ -1,7 +1,6 @@
 package com.simple.api.book.web.controller.service.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.management.ManagementFactory;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JwtServiceImpl implements JwtService{
 	
-	private String SALT =  "SearchBookSecret";
+	private static final String SALT =  RandomStringUtils.randomAlphabetic(10);
 	
 	private Logger logger = LoggerFactory.getLogger( getClass() );
 	

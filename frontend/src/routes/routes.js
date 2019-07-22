@@ -79,7 +79,7 @@ axios.interceptors.response.use(function(response) {
     return response;
 }, function(error) {
     if (401 === error.response.status) {
-        alert('인증시간이 만료되었습니다. 다시 로그인 해주세요.')
+        alert('인증이 유효하지 않습니다. 다시 로그인 해주세요.')
         
         userService.logout();
         location.reload(true);
