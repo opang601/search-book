@@ -1,4 +1,4 @@
-package com.simple.api.book.web.controller.service.impl;
+package com.simple.api.book.web.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,7 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.config.exception.UnauthorizedException;
-import com.simple.api.book.web.controller.service.JwtService;
+import com.simple.api.book.web.service.JwtService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -30,8 +28,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtServiceImpl implements JwtService{
 	
 	private static final String SALT =  RandomStringUtils.randomAlphabetic(10);
-	
-	private Logger logger = LoggerFactory.getLogger( getClass() );
 	
 	// 발급 시 Token 만료 : 1시간, Refresh 주기 : 30분. 
 	// Token 만료 시간 설정

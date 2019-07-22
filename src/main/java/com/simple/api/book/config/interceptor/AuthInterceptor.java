@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.response.ResultCode;
-import com.simple.api.book.web.controller.service.JwtService;
+import com.simple.api.book.web.service.JwtService;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor{

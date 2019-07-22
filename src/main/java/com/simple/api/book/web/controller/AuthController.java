@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.vo.user.LoginVO;
-import com.simple.api.book.web.controller.service.AuthService;
-import com.simple.api.book.web.controller.service.JwtService;
+import com.simple.api.book.web.service.AuthService;
+import com.simple.api.book.web.service.JwtService;
 
 @CrossOrigin( "*" )
 @RestController

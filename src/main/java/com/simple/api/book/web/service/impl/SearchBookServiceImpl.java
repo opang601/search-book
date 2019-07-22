@@ -1,4 +1,4 @@
-package com.simple.api.book.web.controller.service.impl;
+package com.simple.api.book.web.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,12 +24,11 @@ import org.springframework.web.client.RestTemplate;
 import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
 import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
-import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.vo.book.KakaoBookInfoVO;
 import com.simple.api.book.common.domain.vo.book.SearchBookVO;
-import com.simple.api.book.web.controller.service.JwtService;
-import com.simple.api.book.web.controller.service.SearchBookService;
+import com.simple.api.book.web.service.JwtService;
+import com.simple.api.book.web.service.SearchBookService;
 
 @Service
 public class SearchBookServiceImpl implements SearchBookService{
@@ -51,10 +50,7 @@ public class SearchBookServiceImpl implements SearchBookService{
 	private String naverClientId;
 	@Value("${naver.clientSecret}")
 	private String naverClientSecret;
-
 	
-	@Autowired
-	private UserRepository userRepository;
 	@Autowired
 	private SearchKeywordRepository searchKeywordRepository;
 	@Autowired

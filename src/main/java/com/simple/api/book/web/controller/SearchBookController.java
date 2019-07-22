@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.vo.book.SearchBookVO;
-import com.simple.api.book.web.controller.service.SearchBookService;
+import com.simple.api.book.web.service.SearchBookService;
 
 @RestController
 @RequestMapping("/api/search")

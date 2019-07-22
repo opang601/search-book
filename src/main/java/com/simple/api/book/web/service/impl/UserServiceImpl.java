@@ -1,4 +1,4 @@
-package com.simple.api.book.web.controller.service.impl;
+package com.simple.api.book.web.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.util.SHA256Util;
-import com.simple.api.book.web.controller.service.UserService;
+import com.simple.api.book.web.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{

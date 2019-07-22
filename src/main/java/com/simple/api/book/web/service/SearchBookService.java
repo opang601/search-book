@@ -1,4 +1,4 @@
-package com.simple.api.book.web.controller.service;
+package com.simple.api.book.web.service;
 
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.vo.book.SearchBookVO;

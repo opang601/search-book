@@ -1,4 +1,4 @@
-package com.simple.api.book.web.controller.service.impl;
+package com.simple.api.book.web.service.impl;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.common.domain.vo.user.LoginVO;
 import com.simple.api.book.common.util.SHA256Util;
 import com.simple.api.book.config.exception.UnauthorizedException;
-import com.simple.api.book.web.controller.service.AuthService;
-import com.simple.api.book.web.controller.service.JwtService;
+import com.simple.api.book.web.service.AuthService;
+import com.simple.api.book.web.service.JwtService;
 
 @Service
 public class AuthServiceImpl implements AuthService{

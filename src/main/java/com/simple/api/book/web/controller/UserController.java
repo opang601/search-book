@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.response.Result;
-import com.simple.api.book.web.controller.service.UserService;
+import com.simple.api.book.web.service.UserService;
 
 @CrossOrigin( "*" )
 @RestController
