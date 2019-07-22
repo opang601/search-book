@@ -19,6 +19,10 @@ public class SearchBookController {
 	@Autowired
 	private SearchBookService searchBookService;
 	
+	/**	도서조회
+	 * @param searchBook
+	 * @return
+	 */
 	@PostMapping("/book")
 	public Result searchBook(@RequestBody SearchBookVO searchBook) {
 		
@@ -26,6 +30,9 @@ public class SearchBookController {
 		
 	}
 
+	/**	검색이력 조회
+	 * @return
+	 */
 	@GetMapping("/history")
 	public Result searchHistory() {
 		
@@ -33,6 +40,9 @@ public class SearchBookController {
 		
 	}
 
+	/**	검색어 순위 조회
+	 * @return
+	 */
 	@GetMapping("/rankHistory")
 	public Result searchRankHistory() {
 		

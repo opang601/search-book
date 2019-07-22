@@ -1,6 +1,5 @@
 package com.simple.api.book.common.domain.entity;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
