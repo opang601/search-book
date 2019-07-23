@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
@@ -22,6 +23,7 @@ import com.simple.api.book.common.domain.entity.SearchRankEntity;
 import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
 import com.simple.api.book.common.domain.repository.SearchRankRepository;
+import com.simple.api.book.common.domain.repository.custom.SearchRankRepositoryCustom;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.response.ResultCode;
 import com.simple.api.book.common.domain.vo.book.KakaoBookInfoVO;
@@ -33,6 +35,8 @@ import com.simple.api.book.web.service.SearchBookService;
 public class SearchBookServiceImpl implements SearchBookService{
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
+	static final int LIMIT_RANK = 10;		//검색어 순위 갯수
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -56,6 +60,8 @@ public class SearchBookServiceImpl implements SearchBookService{
 	private JwtService jwtService;
 	@Autowired
 	private SearchRankRepository searchRankRepository;
+	@Autowired
+	private SearchRankRepositoryCustom searchRankRepositoryCustom;
 	
 	@Override
 	public Result searchBook(SearchBookVO searchBookVO) {
@@ -134,6 +140,16 @@ public class SearchBookServiceImpl implements SearchBookService{
 		return result;
 	}
 	
+	@Override
+	@Transactional
+	public void getSearchRankGroup(Date targetDate) {
+		List<SearchRankEntity> rankList =  searchRankRepositoryCustom.findByKeywordGroup(targetDate);
+		searchRankRepository.deleteAll();
+		//지정된 갯수만큼만 순위에 저장
+		rankList.stream().limit(LIMIT_RANK)
+					.forEach(l -> searchRankRepository.save(l));	
+		
+	}
 }
 
 

@@ -74,7 +74,7 @@ function expireCheck(){
         var remainTime = expireTime - currentTime;
         //Refresh 주기 설정(단위:초) 현재 : 30분
         var refreshInterval = 60 * 30
-        console.log('토큰 만료까지 남은 시간 : ' + remainTime + '초');
+        // console.log('토큰 만료까지 남은 시간 : ' + remainTime + '초');
         //남은시간이 0보다 크고 Interval보단 적을 시에 Token 갱신 요청
         if (remainTime > 0 && remainTime < refreshInterval) {
             this.refresh();

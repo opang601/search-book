@@ -30,7 +30,6 @@ public class AuthServiceImpl implements AuthService{
 	public LoginVO login(String userId, String password) {
 		LoginVO loginVO = new LoginVO();
 		
-		try {
 			List<UsersEntity> findUserList = userRepository.findByUserId(userId);
 			
 			if(findUserList == null || findUserList.isEmpty()) {
@@ -47,9 +46,6 @@ public class AuthServiceImpl implements AuthService{
 				throw new UnauthorizedException("비밀번호를 정확하게 입력해주세요.");
 			}
 			loginVO = setLoginInfo(targetUser);
-		} catch (Exception e) {
-			logger.debug(e.getMessage());
-		}
 		
 		return loginVO;
 	}
@@ -58,17 +54,13 @@ public class AuthServiceImpl implements AuthService{
 	public LoginVO refresh() {
 		LoginVO loginVO = new LoginVO();
 		
-		try {
-			List<UsersEntity> findUserList = userRepository.findByUserId(jwtService.getUserId());
-			if(findUserList == null || findUserList.isEmpty()) {
-				throw new UnauthorizedException("아이디가 존재하지 않습니다.");
-			}
-			
-			UsersEntity targetUser = findUserList.get(0);
-			loginVO = setLoginInfo(targetUser);
-		} catch (Exception e) {
-			logger.debug(e.getMessage());
+		List<UsersEntity> findUserList = userRepository.findByUserId(jwtService.getUserId());
+		if(findUserList == null || findUserList.isEmpty()) {
+			throw new UnauthorizedException("아이디가 존재하지 않습니다.");
 		}
+		
+		UsersEntity targetUser = findUserList.get(0);
+		loginVO = setLoginInfo(targetUser);
 		return loginVO;
 	}
 	
