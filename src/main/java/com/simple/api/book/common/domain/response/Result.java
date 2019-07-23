@@ -57,5 +57,8 @@ public class Result {
 	public int getStatusCode() {
 		return statusCode.value();
 	}
+	public void setResultCode(String resultCode) {
+		this.resultCode = resultCode;
+	}
 
 }

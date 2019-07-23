@@ -28,38 +28,47 @@ public class AuthServiceImpl implements AuthService{
 	
 	@Override
 	public LoginVO login(String userId, String password) {
+		LoginVO loginVO = new LoginVO();
 		
-		List<UsersEntity> findUserList = userRepository.findByUserId(userId);
-		
-		if(findUserList == null || findUserList.isEmpty()) {
-			throw new UnauthorizedException("아이디가 존재하지 않습니다.");
+		try {
+			List<UsersEntity> findUserList = userRepository.findByUserId(userId);
+			
+			if(findUserList == null || findUserList.isEmpty()) {
+				throw new UnauthorizedException("아이디가 존재하지 않습니다.");
+			}
+			UsersEntity targetUser = findUserList.get(0);
+			
+			//비밀번호 암호화
+			String encPwd = SHA256Util.getEncrypt(password, targetUser.getSalt());
+			
+			logger.info("###### Pass Encrypt encPwd : {}, dbPwd : {}", encPwd, targetUser.getUserPwd());
+			
+			if(!targetUser.getUserPwd().equals(encPwd)) {
+				throw new UnauthorizedException("비밀번호를 정확하게 입력해주세요.");
+			}
+			loginVO = setLoginInfo(targetUser);
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
 		}
-		UsersEntity targetUser = findUserList.get(0);
 		
-		//비밀번호 암호화
-		String encPwd = SHA256Util.getEncrypt(password, targetUser.getSalt());
-		
-		logger.info("###### Pass Encrypt encPwd : {}, dbPwd : {}", encPwd, targetUser.getUserPwd());
-		
-		if(!targetUser.getUserPwd().equals(encPwd)) {
-			throw new UnauthorizedException("비밀번호를 정확하게 입력해주세요.");
-		}
-		
-		LoginVO loginVO = setLoginInfo(targetUser);
 		return loginVO;
 	}
 	
 	@Override
 	public LoginVO refresh() {
-		//추후 IAM에도 계정유무 파악해서 적용해야함.
-		List<UsersEntity> findUserList = userRepository.findByUserId(jwtService.getUserId());
-		if(findUserList == null || findUserList.isEmpty()) {
-			throw new UnauthorizedException("아이디가 존재하지 않습니다.");
+		LoginVO loginVO = new LoginVO();
+		
+		try {
+			List<UsersEntity> findUserList = userRepository.findByUserId(jwtService.getUserId());
+			if(findUserList == null || findUserList.isEmpty()) {
+				throw new UnauthorizedException("아이디가 존재하지 않습니다.");
+			}
+			
+			UsersEntity targetUser = findUserList.get(0);
+			loginVO = setLoginInfo(targetUser);
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
 		}
-		
-		UsersEntity targetUser = findUserList.get(0);
-		LoginVO loginVO = setLoginInfo(targetUser);
-		
 		return loginVO;
 	}
 	

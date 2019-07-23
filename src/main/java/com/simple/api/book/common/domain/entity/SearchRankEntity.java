@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.querydsl.core.annotations.QueryProjection;
 
 import lombok.Data;
 
@@ -34,7 +35,7 @@ public class SearchRankEntity {
 	@Column(name="COUNT")
 	private long count;					// 조회횟수
 	
-	
+	@QueryProjection
 	public SearchRankEntity(String searchKeyword, long count) {
 		this.searchKeyword = searchKeyword;
 		this.count = count;

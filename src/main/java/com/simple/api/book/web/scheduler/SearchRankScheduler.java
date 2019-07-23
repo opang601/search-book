@@ -1,12 +1,9 @@
 package com.simple.api.book.web.scheduler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
 import com.simple.api.book.common.domain.entity.SearchRankEntity;
-import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
 import com.simple.api.book.common.domain.repository.SearchRankRepository;
+import com.simple.api.book.common.domain.repository.custom.SearchRankRepositoryCustom;
 
 /**
  * <pre>
@@ -34,32 +30,33 @@ public class SearchRankScheduler {
 	@Autowired
 	private SearchRankRepository searchRankRepository;
 	@Autowired
-	private SearchKeywordRepository searchKeywordRepository;
+	private SearchRankRepositoryCustom searchRankRepositoryCustom;
 	
 	@Scheduled(fixedDelay = delayTime) 
 	public void rankJob() {
 		logger.info("######## 인기 검색어 수집 스케쥴러 : {} ########", System.currentTimeMillis());
-		List<SearchKeywordEntity> searchList = searchKeywordRepository.findAll();
 		
-		List<String> keywordList = new ArrayList<String>();
-		for(SearchKeywordEntity tmp : searchList) {
-			keywordList.add(tmp.getSearchKeyword());
+		try {
+			Date date = new Date();
+			SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			//30분전 데이터 Grouping
+			cal.add(Calendar.MINUTE, -30);
+			
+			String targetDt = sdformat.format(cal.getTime());
+			
+			List<SearchRankEntity> rankList =  searchRankRepositoryCustom.findByKeywordGroup(sdformat.parse(targetDt));
+			
+			searchRankRepository.deleteAll();
+			
+			//지정된 갯수만큼만 순위에 저장
+			rankList.stream().limit(limitRank)
+						.forEach(l -> searchRankRepository.save(l));	
+		
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		//Group By Keyword
-		Map<String, Long> groupMap = keywordList.stream()
-	            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-		//Map -> Entity 변환
-		List<SearchRankEntity> list = groupMap.entrySet().stream().sorted(Comparator.comparing(e -> e.getValue()))
-				.map(e -> new SearchRankEntity(e.getKey(), e.getValue())).collect(Collectors.toList());
-		//정렬
-		Collections.sort(list, 
-			    Comparator.comparingLong(SearchRankEntity::getCount).reversed());
 		
-		searchRankRepository.deleteAll();
-		
-		//지정된 갯수만큼만 순위에 저장
-		list.stream().limit(limitRank)
-					.forEach(l -> searchRankRepository.save(l));	
-	      
-	   }
+   }
 }

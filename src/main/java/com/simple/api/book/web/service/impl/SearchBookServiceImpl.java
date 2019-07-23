@@ -1,6 +1,5 @@
 package com.simple.api.book.web.service.impl;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +23,7 @@ import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
 import com.simple.api.book.common.domain.repository.SearchRankRepository;
 import com.simple.api.book.common.domain.response.Result;
+import com.simple.api.book.common.domain.response.ResultCode;
 import com.simple.api.book.common.domain.vo.book.KakaoBookInfoVO;
 import com.simple.api.book.common.domain.vo.book.SearchBookVO;
 import com.simple.api.book.web.service.JwtService;
@@ -66,14 +66,15 @@ public class SearchBookServiceImpl implements SearchBookService{
 				SearchKeywordEntity keyword = new SearchKeywordEntity();
 				keyword.setSearchKeyword(searchBookVO.getSearchKeyword());
 				keyword.setUser(jwtService.getUser());
-				
 				keyword.setRegDt(new Date());
 				
 				searchKeywordRepository.save(keyword);
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug( e.getMessage() );
+			result.setResultCode( ResultCode.FAIL.getCode() );
+			result.setMessage( "도서 조회 실패 " + e.getMessage() );
 		}
 		return result;
 	}
@@ -95,7 +96,7 @@ public class SearchBookServiceImpl implements SearchBookService{
 	    
 	    Result result = Result.successInstance();
 	    result.setData(bookResult);
-	    
+		
 	    return result;
 	}
 	
@@ -111,7 +112,9 @@ public class SearchBookServiceImpl implements SearchBookService{
 			result.setData(user);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug( e.getMessage() );
+			result.setResultCode( ResultCode.FAIL.getCode() );
+			result.setMessage( "검색이력 조회 실패 " + e.getMessage() );
 		}
 		return result;
 	}
@@ -122,8 +125,11 @@ public class SearchBookServiceImpl implements SearchBookService{
 		try {
 			List<SearchRankEntity> rankList = searchRankRepository.findAll();
 			result.setData(rankList);
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug( e.getMessage() );
+			result.setResultCode( ResultCode.FAIL.getCode() );
+			result.setMessage( "인기 검색어 순위 조회 실패 " + e.getMessage() );
 		}
 		return result;
 	}
