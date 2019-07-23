@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService{
 			
 			if(saveUser.getUserIdx() == null ) {
 				result = Result.failInstance();
+				result.setMessage("사용자 등록이 실패하였습니다.");
 			}
 			
 			} catch (Exception e) {

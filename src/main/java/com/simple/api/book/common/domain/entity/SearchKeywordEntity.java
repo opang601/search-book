@@ -20,6 +20,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 
+/**
+ * <pre>
+ *	검색어 저장 Entity
+ * </pre>
+ */
 @Entity
 @Table(name="SEARCH_KWD")
 @Data
@@ -34,14 +39,13 @@ public class SearchKeywordEntity {
 	@Column(name="SEARCH_KWD")
 	private String searchKeyword;			// 검색어
 	
-	
 	@Column(name="REG_DT", nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date regDt;			// 조회
+	private Date regDt;						// 조회일시
 
 	@ManyToOne(targetEntity=UsersEntity.class, fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
 	@JoinColumn(name="user_idx")
-    private UsersEntity user;
+    private UsersEntity user;			//회원정보
 	
 	
 }

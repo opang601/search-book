@@ -15,10 +15,10 @@
           <col width="">
         </colgroup>
         <tbody>
-           <tr v-for="(value, name, index) in searchList" :key="name">
+           <tr v-for="(item, index) in searchList" :key="name">
             <td>{{index+1}}</td>
-            <td>{{name}}</td>
-            <td>{{value}}</td>
+            <td>{{item.searchKeyword}}</td>
+            <td>{{item.count}}</td>
           </tr>
         </tbody>
       </table>

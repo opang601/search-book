@@ -20,6 +20,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 
+/**
+ * <pre>
+ *	사용자 정보저장 Entity
+ * </pre>
+ */
 @Entity
 @Table(name="USERS")
 @Data

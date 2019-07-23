@@ -12,6 +12,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
 
+/**
+ * <pre>
+ *	검색어 순위 Entity
+ * </pre>
+ */
 @Entity
 @Table(name="SEARCH_RANK")
 @Data
@@ -33,5 +38,8 @@ public class SearchRankEntity {
 	public SearchRankEntity(String searchKeyword, long count) {
 		this.searchKeyword = searchKeyword;
 		this.count = count;
+	}
+	public SearchRankEntity() {
+	
 	}
 }

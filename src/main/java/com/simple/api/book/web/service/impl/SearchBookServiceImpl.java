@@ -1,12 +1,9 @@
 package com.simple.api.book.web.service.impl;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.simple.api.book.common.domain.entity.SearchKeywordEntity;
+import com.simple.api.book.common.domain.entity.SearchRankEntity;
 import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.SearchKeywordRepository;
+import com.simple.api.book.common.domain.repository.SearchRankRepository;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.vo.book.KakaoBookInfoVO;
 import com.simple.api.book.common.domain.vo.book.SearchBookVO;
@@ -55,6 +54,8 @@ public class SearchBookServiceImpl implements SearchBookService{
 	private SearchKeywordRepository searchKeywordRepository;
 	@Autowired
 	private JwtService jwtService;
+	@Autowired
+	private SearchRankRepository searchRankRepository;
 	
 	@Override
 	public Result searchBook(SearchBookVO searchBookVO) {
@@ -72,7 +73,6 @@ public class SearchBookServiceImpl implements SearchBookService{
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -111,7 +111,6 @@ public class SearchBookServiceImpl implements SearchBookService{
 			result.setData(user);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -121,21 +120,9 @@ public class SearchBookServiceImpl implements SearchBookService{
 	public Result searchRankHistory() {
 		Result result = Result.successInstance();
 		try {
-			List<SearchKeywordEntity> searchList = searchKeywordRepository.findAll();
-			
-			List<String> keywordList = new ArrayList<String>();
-			for(SearchKeywordEntity tmp : searchList) {
-				keywordList.add(tmp.getSearchKeyword());
-			}
-			
-			Map<String, Long> counted = keywordList.stream()
-		            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-			
-			logger.info(counted.toString());
-			result.setData(counted);
-			
+			List<SearchRankEntity> rankList = searchRankRepository.findAll();
+			result.setData(rankList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;

@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class ContentInterceptor implements WebMvcConfigurer{
-	// 인증과 Swagger 관련 Path 예외처리
+	// 인증 관련 Path 예외처리
 	private static final String[] EXCLUDE_PATHS = {
 			"/auth/**",
 			"/api/user/**",
