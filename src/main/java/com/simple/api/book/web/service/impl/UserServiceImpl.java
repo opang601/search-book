@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.simple.api.book.common.domain.entity.UsersEntity;
 import com.simple.api.book.common.domain.repository.UserRepository;
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepository;
 	
 	@Override
+	@Transactional
 	public Result regist(UsersEntity user) {
 		Result result = Result.successInstance();
 		

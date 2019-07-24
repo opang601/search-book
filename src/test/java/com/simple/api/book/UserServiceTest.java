@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.simple.api.book.common.domain.entity.UsersEntity;
+import com.simple.api.book.common.domain.repository.UserRepository;
 import com.simple.api.book.common.domain.response.Result;
 import com.simple.api.book.common.domain.response.ResultCode;
 import com.simple.api.book.web.service.UserService;
@@ -25,21 +28,37 @@ public class UserServiceTest {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserRepository userRepository;
 	
+	/**
+	 * <pre>
+	 *	회원 저장 테스트
+	 * </pre>
+	 */
 	@Test
 	public void userRegistTest() {
 		UsersEntity user = new UsersEntity();
-		user.setUserId("testId");
+		String userId = "testId";
+		
+		user.setUserId(userId);
 		user.setUserName("테스트");
 		user.setUserPwd("1234");
 		
 		userService.regist(user);
 		logger.info(user.toString());
-		assertThat(user.getUserId(), is("testId"));
-		assertThat(user.getUserIdx(), is(notNullValue()));
+		
+		List<UsersEntity> userList = userRepository.findByUserId(userId);
+		
+		assertThat(userList.get(0).getUserId(), is(userId));
 		
 	}
 	
+	/**
+	 * <pre>
+	 *	ID중복 여부 테스트(ID중복이라면 fail return)
+	 * </pre>
+	 */
 	@Test
 	public void idCheckTest() {
 		Result result = userService.idCheckUser("ch601");

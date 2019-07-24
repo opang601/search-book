@@ -43,7 +43,7 @@ public class SearchKeywordEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date regDt;						// 조회일시
 
-	@ManyToOne(targetEntity=UsersEntity.class, fetch=FetchType.LAZY,cascade = {CascadeType.ALL})
+	@ManyToOne(targetEntity=UsersEntity.class, fetch=FetchType.LAZY,cascade = {CascadeType.MERGE})
 	@JoinColumn(name="user_idx")
     private UsersEntity user;			//회원정보
 	
