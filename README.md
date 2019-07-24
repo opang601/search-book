@@ -16,3 +16,8 @@
 
 5.**접속 주소입니다.**
   http://localhost:8090
+  
+6.**개발 spec.**
+  frontend : vue.js
+  backend : java,jpa,springboot
+  
